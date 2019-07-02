@@ -31,7 +31,7 @@ int opDirectory(const char *path) {
     AVDictionary *d = nullptr;
     AVIODirEntry *entry = nullptr;
 
-    ret = avio_open_dir(&avioContext, path, &d);
+    ret = avio_open_dir(&avioContext, path, &d); //内部初始化 avioContext 指针
     if (ret < 0) {
         av_log(nullptr, AV_LOG_ERROR, "1. failed to open file dir %s", av_err2str(ret));
         goto __fail; //跳转到__fail
