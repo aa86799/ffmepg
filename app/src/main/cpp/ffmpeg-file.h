@@ -6,5 +6,6 @@
 #define FFMPEG_FFMPEG_FILE_H
 
 int deleteFile(const char* path);
+int opDirectory(const char* path);
 
 #endif //FFMPEG_FFMPEG_FILE_H

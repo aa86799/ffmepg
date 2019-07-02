@@ -62,6 +62,16 @@ JNIEXPORT void JNICALL Java_com_stone_ffmpeg_MainActivity_ffmpegDeleteFile(
     ALOGI("ret=%d", ret);
 }
 
+JNIEXPORT void JNICALL Java_com_stone_ffmpeg_MainActivity_ffmpegOpDir(
+        JNIEnv *env,
+        jobject jobj,
+        jstring path) {
+
+    int ret = opDirectory(env->GetStringUTFChars(path, JNI_FALSE));
+    ALOGI("ret=%d", ret);
+}
+
+
 }
 
 
