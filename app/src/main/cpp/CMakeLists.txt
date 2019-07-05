@@ -30,6 +30,7 @@ add_library( # Sets the name of the library.
         # 配置源文件或者头文件的路径    这里的文件路径是相对于CMakeList.txt的路径
         ffmpeg-stone-lib.cpp
         ffmpeg-file.cpp
+        ffmpeg-extract-audio.cpp
         )
 
 add_library(avcodec SHARED IMPORTED)

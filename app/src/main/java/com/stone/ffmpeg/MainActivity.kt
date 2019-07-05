@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,11 +27,31 @@ class MainActivity : AppCompatActivity() {
 
 
         rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            .subscribe { granted->
+            .subscribeOn(Schedulers.io())
+            .subscribe { granted ->
                 run {
                     if (granted) {
-                        ffmpegOpDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/abcdef")
-                        ffmpegOpDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path)
+//                        ffmpegOpDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/abcdef")
+//                        ffmpegOpDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path)
+
+                        /*
+                         * adb push /Users/stone/Documents/aavp/ffmpeg/out-dump2.ts sdcard/Download/
+                         */
+//                        ffmpegPrintFileInfo("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path}/out-dump2.ts")
+//                        ffmpegPrintFileInfo("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path}/out.mp4")
+
+                        /*
+                         * 抽取到的 aac 音频数据，不能直接播放。需要添加 ADTS header。
+                         * 可以参考：http://www.imooc.com/article/254733
+                         */
+//                        extractAudioData("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path}/out.mp4",
+//                            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path}/out-audio.aac")
+
+                        /*
+                         * 使用 ffmpeg 制取 mp4 AAC 音频，并写入 AAC 音频文件
+                         */
+                        extractAudioDataForAAC("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path}/input.mp4",
+                            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path}/out-audio2.aac")
                     } else {
 
                     }
@@ -50,6 +71,12 @@ class MainActivity : AppCompatActivity() {
     external fun ffmpegDeleteFile(path: String)
 
     external fun ffmpegOpDir(path: String)
+
+    external fun ffmpegPrintFileInfo(path: String)
+
+    external fun extractAudioData(input: String, output:String)
+
+    external fun extractAudioDataForAAC(input: String, output:String)
 
     companion object {
 

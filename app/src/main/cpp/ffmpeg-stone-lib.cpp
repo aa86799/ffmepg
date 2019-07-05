@@ -13,6 +13,7 @@ extern "C" {
 #endif
 
 #include "ffmpeg-file.h"
+#include "ffmpeg-extract-audio.h"
 
 extern "C" {//按照C语言方式编译和链接
 JNIEXPORT jstring JNICALL Java_com_stone_ffmpeg_MainActivity_stringFromJNI(
@@ -68,6 +69,35 @@ JNIEXPORT void JNICALL Java_com_stone_ffmpeg_MainActivity_ffmpegOpDir(
         jstring path) {
 
     int ret = opDirectory(env->GetStringUTFChars(path, JNI_FALSE));
+    ALOGI("ret=%d", ret);
+}
+
+JNIEXPORT void JNICALL Java_com_stone_ffmpeg_MainActivity_ffmpegPrintFileInfo(
+        JNIEnv *env,
+        jobject jobj,
+        jstring path) {
+
+    int ret = printFileInfo(env->GetStringUTFChars(path, JNI_FALSE));
+    ALOGI("ret=%d", ret);
+}
+
+JNIEXPORT void JNICALL Java_com_stone_ffmpeg_MainActivity_extractAudioData(
+        JNIEnv *env,
+        jobject jobj,
+        jstring input,
+        jstring output) {
+
+    int ret = extractAudioData(env->GetStringUTFChars(input, JNI_FALSE), env->GetStringUTFChars(output, JNI_FALSE));
+    ALOGI("ret=%d", ret);
+}
+
+JNIEXPORT void JNICALL Java_com_stone_ffmpeg_MainActivity_extractAudioDataForAAC(
+        JNIEnv *env,
+        jobject jobj,
+        jstring input,
+        jstring output) {
+
+    int ret = extractAudioDataForAAC(env->GetStringUTFChars(input, JNI_FALSE), env->GetStringUTFChars(output, JNI_FALSE));
     ALOGI("ret=%d", ret);
 }
 
